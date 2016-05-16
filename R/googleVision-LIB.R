@@ -18,7 +18,7 @@ checkAndLoadPackages <- function(){
   list.of.packages <- c("googleAuthR", "RCurl", "stringr", "httr")
   new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
   if(length(new.packages)) install.packages(new.packages)
-  
+
   requireNamespace('stringr', quietly = TRUE)
   requireNamespace('httr', quietly = TRUE)
   requireNamespace('RCurl', quietly = TRUE)
@@ -28,33 +28,33 @@ checkAndLoadPackages <- function(){
 
 ############################################################
 #' @title helper function base_encode code the image file
-#' @description 
+#' @description
 #'
 #' @param provide path/url to image
 
 #' @return get the image back as encoded file
-#' 
+#'
 imageToText <- function(imagePath){
-  
+
   checkAndLoadPackages()
   if(stringr::str_count(imagePath, "http")>0){### its a url!
     content = RCurl::getBinaryURL(imagePath)
     txt <- RCurl::base64Encode(content, "txt")
   }
   else{
-    txt <- RCurl::base64Encode(readBin(imagePath, "raw", file.info(imagePath)[1, "size"]), "txt") 
+    txt <- RCurl::base64Encode(readBin(imagePath, "raw", file.info(imagePath)[1, "size"]), "txt")
   }
   return(txt)
 }
 
 ############################################################
 #' @title helper function code to extract the response data.frame
-#' @description 
+#' @description
 #'
 #' @param provide the API rest response, and the feature request
 
 #' @return get the data frame back
-#' 
+#'
 extractResponse <- function(pp, feature){
   if(feature == "LABEL_DETECTION"){
     return(pp$content$responses$labelAnnotations[[1]])
@@ -83,29 +83,30 @@ extractResponse <- function(pp, feature){
 #' @export
 #' @return data frame with results
 #' @examples getGoogleVisionResponse(imagePath="brandlogos.png", feature="LOGO_DETECTION")
-#' 
+#'
 getGoogleVisionResponse <- function(imagePath, feature="LABEL_DETECTION", numResults=5){
 
-  
+
 
   #################################
   txt <- imageToText(imagePath)
   ### create Request, following the API Docs.
   if(is.na(numResults)){
     body= paste0('{  "requests": [    {   "image": { "content": "',txt,'" }, "features": [  { "type": "',feature,'", "maxResults": ',numResults,'} ],  }    ],}')
-    
+
   }
   else{
     body= paste0('{  "requests": [    {   "image": { "content": "',txt,'" }, "features": [  { "type": "',feature,'" } ],  }    ],}')
-    
+
   }
 
-  simpleCall <- googleAuthR::gar_api_generator(baseURI = "https://vision.googleapis.com/v1/images:annotate", http_header="POST" )
+  require(googleAuthR)
+  simpleCall <- gar_api_generator(baseURI = "https://vision.googleapis.com/v1/images:annotate", http_header="POST" )
   ## set the request!
-  pp <- googleAuthR::simpleCall(the_body = body)
+  pp <- simpleCall(the_body = body)
   ## obtain results.
   res <- extractResponse(pp, feature)
-  
+
   return(res)
 }
 
