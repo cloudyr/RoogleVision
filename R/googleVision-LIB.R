@@ -23,6 +23,7 @@ checkAndLoadPackages <- function(){
   require(httr)
   require(RCurl)
   require(googleAuthR)
+
 }
 
 ############################################################
@@ -37,7 +38,7 @@ imageToText <- function(imagePath){
   checkAndLoadPackages()
   
   if(str_count(imagePath, "http")>0){### its a url!
-    content = getBinaryURL(u)
+    content = getBinaryURL(imagePath)
     txt <- base64Encode(content, "txt")
   }
   else{
