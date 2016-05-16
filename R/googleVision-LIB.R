@@ -35,7 +35,7 @@ checkAndLoadPackages <- function(){
 #' @return get the image back as encoded file
 #' 
 imageToText <- function(imagePath){
-  checkAndLoadPackages()
+  
   
   if(str_count(imagePath, "http")>0){### its a url!
     content = getBinaryURL(imagePath)
@@ -85,6 +85,7 @@ extractResponse <- function(pp, feature){
 #' @examples getGoogleVisionResponse(imagePath="brandlogos.png", feature="LOGO_DETECTION")
 #' 
 getGoogleVisionResponse <- function(imagePath, feature="LABEL_DETECTION", numResults=5){
+  checkAndLoadPackages()
   
   txt <- imageToText(imagePath)
   ### create Request, following the API Docs.
