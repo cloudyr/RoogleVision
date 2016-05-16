@@ -1,0 +1,11 @@
+Package: RoogleVision
+Title: Access to Google's Cloud Vision API for image recognition, OCR and
+    labeling
+Version: 0.0.1.1
+Authors@R: person("Florian", "Teschner", email = "teschner@gmail.com", role = c("aut", "cre"))
+Description: This package is wrapper for Google's Cloud Vision API.
+Depends:
+    R (>= 3.2.4)
+License: What license is it under?
+LazyData: true
+RoxygenNote: 5.0.1.9000
