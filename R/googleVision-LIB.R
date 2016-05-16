@@ -85,8 +85,18 @@ extractResponse <- function(pp, feature){
 #' @examples getGoogleVisionResponse(imagePath="brandlogos.png", feature="LOGO_DETECTION")
 #' 
 getGoogleVisionResponse <- function(imagePath, feature="LABEL_DETECTION", numResults=5){
-  checkAndLoadPackages()
+
   
+  ##
+  list.of.packages <- c("googleAuthR", "RCurl", "stringr", "httr")
+  new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+  if(length(new.packages)) install.packages(new.packages)
+  
+  require(stringr)
+  require(httr)
+  require(RCurl)
+  require(googleAuthR)
+  #################################
   txt <- imageToText(imagePath)
   ### create Request, following the API Docs.
   if(is.na(numResults)){
