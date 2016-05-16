@@ -38,11 +38,11 @@ imageToText <- function(imagePath){
   
   checkAndLoadPackages()
   if(str_count(imagePath, "http")>0){### its a url!
-    content = getBinaryURL(imagePath)
-    txt <- base64Encode(content, "txt")
+    content = RCurl::getBinaryURL(imagePath)
+    txt <- RCurl::base64Encode(content, "txt")
   }
   else{
-    txt <- base64Encode(readBin(imagePath, "raw", file.info(imagePath)[1, "size"]), "txt") 
+    txt <- RCurl::base64Encode(readBin(imagePath, "raw", file.info(imagePath)[1, "size"]), "txt") 
   }
   return(txt)
 }
