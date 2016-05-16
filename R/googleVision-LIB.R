@@ -19,10 +19,10 @@ checkAndLoadPackages <- function(){
   new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
   if(length(new.packages)) install.packages(new.packages)
   
-  require(stringr)
-  require(httr)
-  require(RCurl)
-  require(googleAuthR)
+  requireNamespace('stringr', quietly = TRUE)
+  requireNamespace('httr', quietly = TRUE)
+  requireNamespace('RCurl', quietly = TRUE)
+  requireNamespace('googleAuthR', quietly = TRUE)
 
 }
 
@@ -37,7 +37,7 @@ checkAndLoadPackages <- function(){
 imageToText <- function(imagePath){
   
   checkAndLoadPackages()
-  if(str_count(imagePath, "http")>0){### its a url!
+  if(stringr::str_count(imagePath, "http")>0){### its a url!
     content = RCurl::getBinaryURL(imagePath)
     txt <- RCurl::base64Encode(content, "txt")
   }
@@ -100,9 +100,9 @@ getGoogleVisionResponse <- function(imagePath, feature="LABEL_DETECTION", numRes
     
   }
 
-  simpleCall <- gar_api_generator(baseURI = "https://vision.googleapis.com/v1/images:annotate", http_header="POST" )
+  simpleCall <- googleAuthR::gar_api_generator(baseURI = "https://vision.googleapis.com/v1/images:annotate", http_header="POST" )
   ## set the request!
-  pp <- simpleCall(the_body = body)
+  pp <- googleAuthR::simpleCall(the_body = body)
   ## obtain results.
   res <- extractResponse(pp, feature)
   
