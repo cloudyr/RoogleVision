@@ -36,7 +36,7 @@ checkAndLoadPackages <- function(){
 #' 
 imageToText <- function(imagePath){
   
-  
+  checkAndLoadPackages()
   if(str_count(imagePath, "http")>0){### its a url!
     content = getBinaryURL(imagePath)
     txt <- base64Encode(content, "txt")
@@ -87,15 +87,7 @@ extractResponse <- function(pp, feature){
 getGoogleVisionResponse <- function(imagePath, feature="LABEL_DETECTION", numResults=5){
 
   
-  ##
-  list.of.packages <- c("googleAuthR", "RCurl", "stringr", "httr")
-  new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-  if(length(new.packages)) install.packages(new.packages)
-  
-  require(stringr)
-  require(httr)
-  require(RCurl)
-  require(googleAuthR)
+
   #################################
   txt <- imageToText(imagePath)
   ### create Request, following the API Docs.
