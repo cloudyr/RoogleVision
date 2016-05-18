@@ -104,8 +104,16 @@ getGoogleVisionResponse <- function(imagePath, feature="LABEL_DETECTION", numRes
   simpleCall <- gar_api_generator(baseURI = "https://vision.googleapis.com/v1/images:annotate", http_header="POST" )
   ## set the request!
   pp <- simpleCall(the_body = body)
-  ## obtain results.
-  res <- extractResponse(pp, feature)
+  
+  if(ncol(pp$content$responses) >=0){
+    ## obtain results.
+    res <- extractResponse(pp, feature)
+  }
+  else{
+    warning("No features detected!")
+    res <- data.frame(error="No features detected!")
+  }
+
 
   return(res)
 }
