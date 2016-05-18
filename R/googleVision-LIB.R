@@ -105,12 +105,11 @@ getGoogleVisionResponse <- function(imagePath, feature="LABEL_DETECTION", numRes
   ## set the request!
   pp <- simpleCall(the_body = body)
   
-  if(ncol(pp$content$responses) >=0){
+  if(ncol(pp$content$responses) >0){
     ## obtain results.
     res <- extractResponse(pp, feature)
   }
   else{
-    warning("No features detected!")
     res <- data.frame(error="No features detected!")
   }
 
