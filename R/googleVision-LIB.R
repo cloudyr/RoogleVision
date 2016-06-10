@@ -11,22 +11,6 @@
 
 
 ############################################################
-#' @title helper function to load required packages
-#' @description Thanks to http://stackoverflow.com/questions/4090169/elegant-way-to-check-for-missing-packages-and-install-them
-#'
-checkAndLoadPackages <- function(){
-  list.of.packages <- c("googleAuthR", "RCurl", "stringr", "httr")
-  new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-  if(length(new.packages)) install.packages(new.packages)
-
-  requireNamespace('stringr', quietly = TRUE)
-  requireNamespace('httr', quietly = TRUE)
-  requireNamespace('RCurl', quietly = TRUE)
-  requireNamespace('googleAuthR', quietly = TRUE)
-
-}
-
-############################################################
 #' @title helper function base_encode code the image file
 #' @description
 #'
@@ -36,7 +20,6 @@ checkAndLoadPackages <- function(){
 #'
 imageToText <- function(imagePath){
 
-  checkAndLoadPackages()
   if(stringr::str_count(imagePath, "http")>0){### its a url!
     content = RCurl::getBinaryURL(imagePath)
     txt <- RCurl::base64Encode(content, "txt")
