@@ -8,18 +8,20 @@ getGoogleVisionResponse(imagePath, feature = "LABEL_DETECTION",
   numResults = 5)
 }
 \arguments{
-\item{path}{or url to the image}
+\item{imagePath}{path or url to the image}
 
-\item{feature:}{one out of: FACE_DETECTION, LANDMARK_DETECTION, LOGO_DETECTION, LABEL_DETECTION, TEXT_DETECTION}
+\item{feature}{one out of: FACE_DETECTION, LANDMARK_DETECTION, LOGO_DETECTION, LABEL_DETECTION, TEXT_DETECTION}
+
+\item{numResults}{the number of results to return.}
 }
 \value{
-data frame with results
+a data frame with results
 }
 \description{
 input an image, provide the feature type and maxNumber of responses
 }
 \examples{
-getGoogleVisionResponse(imagePath="brandlogos.png", feature="LOGO_DETECTION")
-
+f <- system.file("exampleImages", "brandlogos.png", package = "RoogleVision")
+getGoogleVisionResponse(imagePath = f, feature = "LOGO_DETECTION")
 }
 
