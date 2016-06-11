@@ -7,12 +7,14 @@
 extractResponse(pp, feature)
 }
 \arguments{
-\item{provide}{the API rest response, and the feature request}
+\item{pp}{an API response object}
+
+\item{feature}{the name of the feature to return}
 }
 \value{
-get the data frame back
+a data frame
 }
 \description{
-
+a utility to extract features from the API response
 }
 

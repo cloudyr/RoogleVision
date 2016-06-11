@@ -1,0 +1,13 @@
+language: r
+sudo: required
+r_packages:
+- knitr
+- covr
+- drat
+after_success:
+- Rscript -e 'library("covr");codecov()'
+- test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash
+  drat.sh
+env:
+  global:
+    secure: thMKsKBFbBIsaV/+lNpeKi4GC7thrPdPZjfc9Vn5GbLbQ38aBw+s5HiGs7tuYbQRHTgdqZ6i9m6ZnD81YouQUcg56ibYqR/zikQHjDCf6lNcB4Hr7T0LG0LH19DVGxe2yP711q2v6JntgKQm+olKPEJbKY+vliRWXxy0c5OwcSVlaNtsvhyeOXwQKf73MsmLAHaRRUXPWiWsrPiDuonrC/AH2hgNCvSYb2T+jyE1ma64w5u0toFmHBYdaGMCYarMIaOfGRpVJbGLGnb7PFRABZYXVNBMielEFe8yl+Ge/esbU+ckf2p8oZ2ONois8aPpEUrZ/WZvVKl+lPSiosUZa/02HpZQuRGQYA2cg5ExoMreilupB4qk58OZh/huL4dM/QLkBG4OxbpplgfRxMSfApvzwaBSzAPEHUgZovjjRXijUmkekNGDXDDdhjxnsec9qlSQyHSQWXpaHAEWfdHAVD9gxbdT+02jCLO19Jzebap1SJ1VzNkfJ+O/CictJIN3jgR0JvPrZhycSUVOCq/KcxVPRBqX0xVOHFQAADTliLfFy27+2jSsVyIZPIQGDX7onsNiZYlgj7eNOkRF9TEctMRuqM4XLVu9gLOhMtPO0xdGedgNJ+KaIihive7q+bRAhgqaP45N1J0Lg8T6onM404BwHZOvehksXoAjbAHMEQ8=

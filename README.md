@@ -5,12 +5,6 @@ See the the R/shiny [demo](https://flovv.shinyapps.io/gVision-shiny/)
 
 and blog posts [1](http://flovv.github.io/Image-Recognition-Google-Vision/) and [2](http://flovv.github.io/Brand-Logos/)
 
-## Install
-```
-#install.packages("devtools")
-require(devtools)
-install_github("flovv/RoogleVision")
-```
 
 ## Get API Keys
 * Visit [Google's developer console](console.cloud.google.com)
@@ -21,11 +15,8 @@ install_github("flovv/RoogleVision")
 
 ## Usage
 
-```
-require(RoogleVision)
-#devtools::install_github("MarkEdmondson1234/googleAuthR")
-require(googleAuthR)
-
+```R
+require("RoogleVision")
 
 ### plugin your credentials
 options("googleAuthR.client_id" = "xxx.apps.googleusercontent.com")
@@ -50,3 +41,28 @@ getGoogleVisionResponse("https://media-cdn.tripadvisor.com/media/photo-s/02/6b/c
 ```
 
 
+## Installation ##
+
+[![CRAN](http://www.r-pkg.org/badges/version/RoogleVision)](http://cran.r-project.org/package=RoogleVision)
+[![Build Status](https://travis-ci.org/cloudyr/RoogleVision.png?branch=master)](https://travis-ci.org/cloudyr/RoogleVision)
+[![codecov.io](http://codecov.io/github/cloudyr/RoogleVision/coverage.svg?branch=master)](http://codecov.io/github/cloudyr/RoogleVision?branch=master)
+
+This package is not yet on CRAN. To install the latest development version you can install from the cloudyr drat repository:
+
+```R
+# latest stable version
+install.packages("RoogleVision", repos = c(getOption("repos"), "http://cloudyr.github.io/drat"))
+```
+
+Or, to pull a potentially unstable version directly from GitHub:
+
+```R
+if (!require("devtools")) {
+    install.packages("ghit")
+}
+devtools::install_github("cloudyr/RoogleVision")
+```
+
+
+---
+[![cloudyr project logo](http://i.imgur.com/JHS98Y7.png)](https://github.com/cloudyr)
