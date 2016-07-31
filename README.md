@@ -1,5 +1,5 @@
 # RoogleVision
-R Package for Image Recogntion, Object Detection, and OCR using the Google's Cloud Vision API
+R Package for Image Recognition, Object Detection, and OCR using the Google's Cloud Vision API
 
 See the the R/shiny [demo](https://flovv.shinyapps.io/gVision-shiny/)
 
