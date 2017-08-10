@@ -1,5 +1,5 @@
 # RoogleVision
-R Package for Image Recogntion, Object Detection, and OCR using the Google's Cloud Vision API
+R Package for Image Recognition, Object Detection, and OCR using the Google's Cloud Vision API
 
 See the the R/shiny [demo](https://flovv.shinyapps.io/gVision-shiny/)
 
@@ -7,7 +7,7 @@ and blog posts [1](http://flovv.github.io/Image-Recognition-Google-Vision/) and 
 
 
 ## Get API Keys
-* Visit [Google's developer console](console.cloud.google.com)
+* Visit [Google's developer console](https://console.cloud.google.com)
 * sign in
 * create a project, enable billing and enable 'Google Cloud Vision API' 
 * go to credentials, create OAuth 2.0 client ID: copy client_id and client_secret from JSON file.
