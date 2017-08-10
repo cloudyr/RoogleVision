@@ -73,7 +73,7 @@ getGoogleVisionResponse <- function(imagePath, feature = "LABEL_DETECTION", numR
   #################################
   txt <- imageToText(imagePath)
   ### create Request, following the API Docs.
-  if (is.na(numResults)) { 
+  if (is.numeric(numResults)) { 
     body <- paste0('{  "requests": [    {   "image": { "content": "',txt,'" }, "features": [  { "type": "',feature,'", "maxResults": ',numResults,'} ],  }    ],}')
   } else {
     body <- paste0('{  "requests": [    {   "image": { "content": "',txt,'" }, "features": [  { "type": "',feature,'" } ],  }    ],}')
