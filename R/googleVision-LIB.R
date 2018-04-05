@@ -51,6 +51,9 @@ extractResponse <- function(pp, feature){
   if (feature == "LANDMARK_DETECTION") {
     return(pp$content$responses$landmarkAnnotations[[1]])
   }
+  if (feature == "IMAGE_PROPERTIES") {
+    return(pp$content$responses$imagePropertiesAnnotation[[1]]$colors)
+  }
 }
 
 
@@ -59,7 +62,7 @@ extractResponse <- function(pp, feature){
 #' @description input an image, provide the feature type and maxNumber of responses
 #'
 #' @param imagePath path or url to the image
-#' @param feature one out of: FACE_DETECTION, LANDMARK_DETECTION, LOGO_DETECTION, LABEL_DETECTION, TEXT_DETECTION
+#' @param feature one out of: FACE_DETECTION, LANDMARK_DETECTION, LOGO_DETECTION, LABEL_DETECTION, TEXT_DETECTION, IMAGE_PROPERTIES
 #' @param numResults the number of results to return.
 #' @export
 #' @return a data frame with results
