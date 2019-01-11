@@ -41,21 +41,16 @@ imageToText <- function(imagePath, download) {
 #' @return a data frame
 #'
 extractResponse <- function(pp, feature){
-  if (feature == "LABEL_DETECTION") {
-    return(pp$content$responses$labelAnnotations[[1]])
-  }
-  if (feature == "FACE_DETECTION") {
-    return(pp$content$responses$faceAnnotations[[1]])
-  }
-  if (feature == "LOGO_DETECTION") {
-    return(pp$content$responses$logoAnnotations[[1]])
-  }
-  if (feature == "TEXT_DETECTION") {
-    return(pp$content$responses$textAnnotations[[1]])
-  }
-  if (feature == "LANDMARK_DETECTION") {
-    return(pp$content$responses$landmarkAnnotations[[1]])
-  }
+  feature_map <- list(
+    LABEL_DETECTION    = "labelAnnotations",
+    FACE_DETECTION     = "faceAnnotations",
+    LOGO_DETECTION     = "logoAnnotations",
+    TEXT_DETECTION     = "textAnnotations",
+    LANDMARK_DETECTION = "landmarkAnnotations"
+  )
+
+  feature_name <- feature_map[[feature]]
+  do.call("rbind", pp$content$responses[[feature_name]])
 }
 
 
