@@ -102,7 +102,7 @@ getGoogleVisionResponse <- function(imagePath,
     requests <- c(requests, request)
   }
 
-  body <- paste0('{  "requests": [    ', paste0(request, collapse = ", ") , '    ],}')
+  body <- paste0('{  "requests": [    ', paste0(requests, collapse = ", ") , '    ],}')
 
   simpleCall <- gar_api_generator(baseURI = "https://vision.googleapis.com/v1/images:annotate", http_header = "POST")
   ## set the request!
