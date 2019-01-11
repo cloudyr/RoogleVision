@@ -37,7 +37,7 @@ imageToText <- function(imagePath, download) {
 #' @description a utility to extract features from the API response
 #'
 #' @param pp an API response object
-#' @param feature the name of the feature to return 
+#' @param feature the name of the feature to return
 #' @return a data frame
 #'
 extractResponse <- function(pp, feature){
@@ -69,7 +69,7 @@ extractResponse <- function(pp, feature){
 #' @param download should image urls be downloaded and sent as data to the API?
 #' @export
 #' @return a data frame with results
-#' @examples 
+#' @examples
 #' f <- system.file("exampleImages", "brandlogos.png", package = "RoogleVision")
 #' getGoogleVisionResponse(imagePath = f, feature = "LOGO_DETECTION")
 #' @import googleAuthR
@@ -80,21 +80,29 @@ getGoogleVisionResponse <- function(imagePath,
                                     download = TRUE){
 
   #################################
-  txt <- imageToText(imagePath, download = download)
+  requests <- c()
 
-  if (identical(download, FALSE)) {
-    imageContent <- paste0('"image": { "source": { "imageUri": "',txt,'" } }')
-  }
-  else {
-    imageContent <- paste0('"image": { "content": "',txt,'" }')
+  for (singlePath in imagePath) {
+    txt <- imageToText(singlePath, download = download)
+
+    if (identical(download, FALSE)) {
+      imageContent <- paste0('"image": { "source": { "imageUri": "',txt,'" } }')
+    }
+    else {
+      imageContent <- paste0('"image": { "content": "',txt,'" }')
+    }
+
+    ### create Request, following the API Docs.
+    if (is.numeric(numResults)) {
+      request <- paste0('{   ', imageContent, ', "features": [  { "type": "',feature,'", "maxResults": ',numResults,'} ],  }')
+    } else {
+      request <- paste0('{   ', imageContent, ', "features": [  { "type": "',feature,'" } ],  }')
+    }
+
+    requests <- c(requests, request)
   }
 
-  ### create Request, following the API Docs.
-  if (is.numeric(numResults)) {
-    body <- paste0('{  "requests": [    {   ', imageContent, ', "features": [  { "type": "',feature,'", "maxResults": ',numResults,'} ],  }    ],}')
-  } else {
-    body <- paste0('{  "requests": [    {   ', imageContent, ', "features": [  { "type": "',feature,'" } ],  }    ],}')
-  }
+  body <- paste0('{  "requests": [    ', paste0(request, collapse = ", ") , '    ],}')
 
   simpleCall <- gar_api_generator(baseURI = "https://vision.googleapis.com/v1/images:annotate", http_header = "POST")
   ## set the request!
