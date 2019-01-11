@@ -16,11 +16,16 @@
 #' @param imagePath provide path/url to image
 #' @return get the image back as encoded file
 #'
-imageToText <- function(imagePath) {
+imageToText <- function(imagePath, download) {
 
   if (stringr::str_count(imagePath, "http")>0) {### its a url!
-    content <- RCurl::getBinaryURL(imagePath)
-    txt <- RCurl::base64Encode(content, "txt")
+    if (identical(download, FALSE)) {
+      txt <- imagePath
+    }
+    else {
+      content <- RCurl::getBinaryURL(imagePath)
+      txt <- RCurl::base64Encode(content, "txt")
+    }
   } else {
     txt <- RCurl::base64Encode(readBin(imagePath, "raw", file.info(imagePath)[1, "size"]), "txt")
   }
@@ -61,6 +66,7 @@ extractResponse <- function(pp, feature){
 #' @param imagePath path or url to the image
 #' @param feature one out of: FACE_DETECTION, LANDMARK_DETECTION, LOGO_DETECTION, LABEL_DETECTION, TEXT_DETECTION
 #' @param numResults the number of results to return.
+#' @param download should image urls be downloaded and sent as data to the API?
 #' @export
 #' @return a data frame with results
 #' @examples 
@@ -68,15 +74,26 @@ extractResponse <- function(pp, feature){
 #' getGoogleVisionResponse(imagePath = f, feature = "LOGO_DETECTION")
 #' @import googleAuthR
 #'
-getGoogleVisionResponse <- function(imagePath, feature = "LABEL_DETECTION", numResults = 5){
+getGoogleVisionResponse <- function(imagePath,
+                                    feature = "LABEL_DETECTION",
+                                    numResults = 5,
+                                    download = TRUE){
 
   #################################
-  txt <- imageToText(imagePath)
+  txt <- imageToText(imagePath, download = download)
+
+  if (identical(download, FALSE)) {
+    imageContent <- paste0('"image": { "source": { "imageUri": "',txt,'" } }')
+  }
+  else {
+    imageContent <- paste0('"image": { "content": "',txt,'" }')
+  }
+
   ### create Request, following the API Docs.
-  if (is.numeric(numResults)) { 
-    body <- paste0('{  "requests": [    {   "image": { "content": "',txt,'" }, "features": [  { "type": "',feature,'", "maxResults": ',numResults,'} ],  }    ],}')
+  if (is.numeric(numResults)) {
+    body <- paste0('{  "requests": [    {   ', imageContent, ', "features": [  { "type": "',feature,'", "maxResults": ',numResults,'} ],  }    ],}')
   } else {
-    body <- paste0('{  "requests": [    {   "image": { "content": "',txt,'" }, "features": [  { "type": "',feature,'" } ],  }    ],}')
+    body <- paste0('{  "requests": [    {   ', imageContent, ', "features": [  { "type": "',feature,'" } ],  }    ],}')
   }
 
   simpleCall <- gar_api_generator(baseURI = "https://vision.googleapis.com/v1/images:annotate", http_header = "POST")
